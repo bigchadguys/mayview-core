@@ -1,0 +1,15 @@
+{
+  "type": "mayview:morphite_synthesizing",
+  "catalyst": {
+    "item": "mayview:honey_diamond"
+  },
+  "morphite": {
+    "item": "mayview:morphite_ingot"
+  },
+  "upgrade": {
+    "item": "mayview:ectoplasm"
+  },
+  "result": {
+    "id": "mayview:spectrite_ingot"
+  }
+}

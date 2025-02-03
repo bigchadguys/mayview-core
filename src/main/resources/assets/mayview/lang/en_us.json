@@ -1,0 +1,81 @@
+{
+  "itemGroup.mayview.mayview_tab": "Mayview",
+
+  "item.mayview.raw_morphite": "Raw Morphite",
+  "item.mayview.morphite_ingot": "Morphite Ingot",
+  "block.mayview.morphite_ore": "Morphite Ore",
+  "block.mayview.deepslate_morphite_ore": "Deepslate Morphite Ore",
+
+  "item.mayview.ectoplasm": "Ectoplasm",
+  "item.mayview.spectrite_ingot": "Spectrite Ingot",
+
+  "item.mayview.mush": "Mush",
+  "item.mayview.ecolite_ingot": "Ecolite Ingot",
+
+  "item.mayview.mysterious_bubble": "Mysterious Bubble",
+  "item.mayview.hydrite_ingot": "Hydrite Ingot",
+
+  "item.mayview.everoak": "Everoak",
+  "item.mayview.petrafite_ingot": "Petrafite Ingot",
+
+  "item.mayview.tectonic_shard": "Tectonic Shard",
+  "item.mayview.tectrite_ingot": "Tectrite Ingot",
+
+  "item.mayview.honey_diamond": "Honey Diamond",
+
+  "item.mayview.copper_coin": "Copper Coin",
+  "item.mayview.iron_coin": "Iron Coin",
+  "item.mayview.gold_coin": "Gold Coin",
+  "item.mayview.diamond_coin": "Diamond Coin",
+  "item.mayview.joe_coin": "Joe Coin",
+
+  "item.mayview.honey_diamond_sword": "Honey Diamond Sword",
+  "item.mayview.honey_diamond_sword.tooltip.1": "§8Applies §6Slowness§r§8 on hit.",
+
+  "item.mayview.honey_diamond_pickaxe": "Honey Diamond Pickaxe",
+  "item.mayview.honey_diamond_axe": "Honey Diamond Axe",
+  "item.mayview.honey_diamond_shovel": "Honey Diamond Shovel",
+  "item.mayview.honey_diamond_hoe": "Honey Diamond Hoe",
+
+  "item.mayview.honey_diamond_helmet": "Honey Diamond Helmet",
+  "item.mayview.honey_diamond_chestplate": "Honey Diamond Chestplate",
+  "item.mayview.honey_diamond_leggings": "Honey Diamond Leggings",
+  "item.mayview.honey_diamond_boots": "Honey Diamond Boots",
+
+  "item.mayview.spectrite_sword": "Spectrite Sword",
+
+  "item.mayview.spectrite_helmet": "Spectrite Helmet",
+  "item.mayview.spectrite_chestplate": "Spectrite Chestplate",
+  "item.mayview.spectrite_leggings": "Spectrite Leggings",
+  "item.mayview.spectrite_boots": "Spectrite Boots",
+
+  "item.mayview.ecolite_hoe": "Ecolite Hoe",
+
+  "item.mayview.ecolite_helmet": "Ecolite Helmet",
+  "item.mayview.ecolite_chestplate": "Ecolite Chestplate",
+  "item.mayview.ecolite_leggings": "Ecolite Leggings",
+  "item.mayview.ecolite_boots": "Ecolite Boots",
+
+  "item.mayview.tectrite_pickaxe": "Tectrite Pickaxe",
+
+  "item.mayview.tectrite_helmet": "Tectrite Helmet",
+  "item.mayview.tectrite_chestplate": "Tectrite Chestplate",
+  "item.mayview.tectrite_leggings": "Tectrite Leggings",
+  "item.mayview.tectrite_boots": "Tectrite Boots",
+
+  "item.mayview.hydrite_helmet": "Hydrite Helmet",
+  "item.mayview.hydrite_chestplate": "Hydrite Chestplate",
+  "item.mayview.hydrite_leggings": "Hydrite Leggings",
+  "item.mayview.hydrite_boots": "Hydrite Boots",
+
+  "item.mayview.petrafite_axe": "Petrafite Axe",
+
+  "item.mayview.petrafite_helmet": "Petrafite Helmet",
+  "item.mayview.petrafite_chestplate": "Petrafite Chestplate",
+  "item.mayview.petrafite_leggings": "Petrafite Leggings",
+  "item.mayview.petrafite_boots": "Petrafite Boots",
+
+  "block.mayview.morphite_synthesizer": "Morphite Synthesizer",
+
+  "blockentity.mayview.morphite_synthesizer": "Morphite Synthesizer"
+}
