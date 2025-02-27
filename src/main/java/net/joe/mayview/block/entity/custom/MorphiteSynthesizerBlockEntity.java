@@ -26,27 +26,29 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
 
 public class MorphiteSynthesizerBlockEntity extends BlockEntity implements MenuProvider {
-    public final ItemStackHandler itemHandler = new ItemStackHandler(4) {
-        @Override
-        protected void onContentsChanged(int slot) {
-            setChanged();
-            if(!level.isClientSide()) {
-                level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
-            }
-        }
-    };
 
     private static final int CATALYST_SLOT = 0;
     private static final int MORPHITE_INGOT_SLOT = 1;
     private static final int UPGRADE_INGOT_SLOT = 2;
     private static final int OUTPUT_SLOT = 3;
 
+    public final ItemStackHandler itemHandler = new ItemStackHandler(4) {
+        @Override
+        protected void onContentsChanged(int slot) {
+            setChanged();
+            assert level != null;
+            if (!level.isClientSide()) {
+                level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+            }
+        }
+    };
 
     private final ContainerData data;
     private int progress = 0;
@@ -54,12 +56,16 @@ public class MorphiteSynthesizerBlockEntity extends BlockEntity implements MenuP
 
     public MorphiteSynthesizerBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.MORPHITE_SYNTHESIZER_BLOCK_ENTITY.get(), pPos, pBlockState);
-        this.data = new ContainerData() {
+        this.data = createContainerData();
+    }
+
+    private ContainerData createContainerData() {
+        return new ContainerData() {
             @Override
             public int get(int pIndex) {
                 return switch (pIndex) {
-                    case 0 -> MorphiteSynthesizerBlockEntity.this.progress;
-                    case 1 -> MorphiteSynthesizerBlockEntity.this.maxProgress;
+                    case 0 -> progress;
+                    case 1 -> maxProgress;
                     default -> 0;
                 };
             }
@@ -67,8 +73,8 @@ public class MorphiteSynthesizerBlockEntity extends BlockEntity implements MenuP
             @Override
             public void set(int pIndex, int pValue) {
                 switch (pIndex) {
-                    case 0: MorphiteSynthesizerBlockEntity.this.progress = pValue;
-                    case 1: MorphiteSynthesizerBlockEntity.this.maxProgress = pValue;
+                    case 0 -> progress = pValue;
+                    case 1 -> maxProgress = pValue;
                 }
             }
 
@@ -80,44 +86,44 @@ public class MorphiteSynthesizerBlockEntity extends BlockEntity implements MenuP
     }
 
     @Override
-    public Component getDisplayName() {
+    public @NotNull Component getDisplayName() {
         return Component.translatable("blockentity.mayview.morphite_synthesizer");
     }
 
     @Nullable
     @Override
-    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-        return new MorphiteSynthesizerMenu(pContainerId, pPlayerInventory, this, this.data);
+    public AbstractContainerMenu createMenu(int containerId, @NotNull Inventory playerInventory, @NotNull Player player) {
+        return new MorphiteSynthesizerMenu(containerId, playerInventory, this, this.data);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
-        pTag.put("inventory", itemHandler.serializeNBT(pRegistries));
-        pTag.putInt("morphite_synthesizer.progress", progress);
-        pTag.putInt("morphite_synthesizer.max_progress", maxProgress);
-
-        super.saveAdditional(pTag, pRegistries);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.@NotNull Provider registries) {
+        tag.put("inventory", itemHandler.serializeNBT(registries));
+        tag.putInt("morphite_synthesizer.progress", progress);
+        tag.putInt("morphite_synthesizer.max_progress", maxProgress);
+        super.saveAdditional(tag, registries);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
-        super.loadAdditional(pTag, pRegistries);
-        itemHandler.deserializeNBT(pRegistries, pTag.getCompound("inventory"));
-        progress = pTag.getInt("morphite_synthesizer.progress");
-        maxProgress = pTag.getInt("morphite_synthesizer.max_progress");
+    protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
+        super.loadAdditional(tag, registries);
+        itemHandler.deserializeNBT(registries, tag.getCompound("inventory"));
+        progress = tag.getInt("morphite_synthesizer.progress");
+        maxProgress = tag.getInt("morphite_synthesizer.max_progress");
     }
 
     public void drops() {
         SimpleContainer inv = new SimpleContainer(itemHandler.getSlots());
-        for(int i = 0; i < itemHandler.getSlots(); i++) {
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
             inv.setItem(i, itemHandler.getStackInSlot(i));
         }
 
+        assert this.level != null;
         Containers.dropContents(this.level, this.worldPosition, inv);
     }
 
     public void tick(Level level, BlockPos pPos, BlockState pState) {
-        if(hasRecipe() && isOutputSlotEmptyOrReceivable()) {
+        if (hasRecipe() && isOutputSlotEmptyOrReceivable()) {
             increaseCraftingProgress();
             level.setBlockAndUpdate(pPos, pState.setValue(MorphiteSynthesizerBlock.LIT, true));
             setChanged(level, pPos, pState);
@@ -140,12 +146,14 @@ public class MorphiteSynthesizerBlockEntity extends BlockEntity implements MenuP
 
     private void craftItem() {
         Optional<RecipeHolder<MorphiteSynthesizerRecipe>> recipe = getCurrentRecipe();
-        ItemStack output = recipe.get().value().output();
-        itemHandler.extractItem(CATALYST_SLOT, 1, false);
-        itemHandler.extractItem(MORPHITE_INGOT_SLOT, 1, false);
-        itemHandler.extractItem(UPGRADE_INGOT_SLOT, 1, false);
-        itemHandler.setStackInSlot(OUTPUT_SLOT, new ItemStack(output.getItem(),
-                itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + output.getCount()));
+        if (recipe.isPresent()) {
+            ItemStack output = recipe.get().value().output();
+            itemHandler.extractItem(CATALYST_SLOT, 1, false);
+            itemHandler.extractItem(MORPHITE_INGOT_SLOT, 1, false);
+            itemHandler.extractItem(UPGRADE_INGOT_SLOT, 1, false);
+            itemHandler.setStackInSlot(OUTPUT_SLOT, new ItemStack(output.getItem(),
+                    itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + output.getCount()));
+        }
     }
 
     private boolean hasCraftingFinished() {
@@ -163,7 +171,7 @@ public class MorphiteSynthesizerBlockEntity extends BlockEntity implements MenuP
 
     private boolean hasRecipe() {
         Optional<RecipeHolder<MorphiteSynthesizerRecipe>> recipe = getCurrentRecipe();
-        if(recipe.isEmpty()) {
+        if (recipe.isEmpty()) {
             return false;
         }
 
@@ -174,12 +182,10 @@ public class MorphiteSynthesizerBlockEntity extends BlockEntity implements MenuP
     private Optional<RecipeHolder<MorphiteSynthesizerRecipe>> getCurrentRecipe() {
         List<ItemStack> itemList = List.of(itemHandler.getStackInSlot(CATALYST_SLOT), itemHandler.getStackInSlot(MORPHITE_INGOT_SLOT), itemHandler.getStackInSlot(UPGRADE_INGOT_SLOT));
 
+        assert this.level != null;
         return this.level.getRecipeManager()
                 .getRecipeFor(ModRecipes.MORPHITE_SYNTHESIZER_TYPE.get(),
-                        new MorphiteSynthesizerRecipeInput(
-                                itemList
-                        ),
-                        level);
+                        new MorphiteSynthesizerRecipeInput(itemList), level);
     }
 
     private boolean canInsertItemIntoOutputSlot(ItemStack output) {
@@ -201,7 +207,7 @@ public class MorphiteSynthesizerBlockEntity extends BlockEntity implements MenuP
     }
 
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
-        return saveWithoutMetadata(pRegistries);
+    public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider registries) {
+        return saveWithoutMetadata(registries);
     }
 }

@@ -16,12 +16,12 @@ import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import java.util.List;
 
 public class ModPlacedFeatures {
+    public static final ResourceKey<PlacedFeature> MORPHITE_ORE_PLACED_KEY = registerKey("morphite_ore_placed");
+    public static final ResourceKey<PlacedFeature> TECTONIC_ORE_PLACED_KEY = registerKey("tectonic_ore_placed");
 
     private static ResourceKey<PlacedFeature> registerKey(String name) {
         return ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Mayview.MOD_ID, name));
     }
-
-    public static final ResourceKey<PlacedFeature> MORPHITE_ORE_PLACED_KEY = registerKey("morphite_ore_placed");
 
     public static void bootstrap(BootstrapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
@@ -29,10 +29,14 @@ public class ModPlacedFeatures {
         register(context, MORPHITE_ORE_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.OVERWORLD_MORPHITE_KEY),
                 ModOrePlacements.commonOrePlacement(4,
                         HeightRangePlacement.uniform(VerticalAnchor.absolute(-80), VerticalAnchor.absolute(60))));
+
+        register(context, TECTONIC_ORE_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.OVERWORLD_TECTONIC_KEY),
+                ModOrePlacements.commonOrePlacement(4,
+                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-80), VerticalAnchor.absolute(60))));
     }
 
-    private static void register(BootstrapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration,
-                                 List<PlacementModifier> modifiers) {
+    private static void register(BootstrapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key,
+                                 Holder<ConfiguredFeature<?, ?>> configuration, List<PlacementModifier> modifiers) {
         context.register(key, new PlacedFeature(configuration, List.copyOf(modifiers)));
     }
 }

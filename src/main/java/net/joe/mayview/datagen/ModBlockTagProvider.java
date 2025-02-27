@@ -22,10 +22,14 @@ public class ModBlockTagProvider extends BlockTagsProvider {
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.MORPHITE_ORE.get())
-                .add(ModBlocks.DEEPSLATE_MORPHITE_ORE.get());
+                .add(ModBlocks.DEEPSLATE_MORPHITE_ORE.get())
+                .add(ModBlocks.TECTONIC_ORE.get())
+                .add(ModBlocks.DEEPSLATE_TECTONIC_ORE.get());
 
         this.tag(BlockTags.NEEDS_DIAMOND_TOOL)
                 .add(ModBlocks.MORPHITE_ORE.get())
-                .add(ModBlocks.DEEPSLATE_MORPHITE_ORE.get());
+                .add(ModBlocks.DEEPSLATE_MORPHITE_ORE.get())
+                .add(ModBlocks.TECTONIC_ORE.get())
+                .add(ModBlocks.DEEPSLATE_TECTONIC_ORE.get());
     }
 }

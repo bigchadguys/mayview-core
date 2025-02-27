@@ -20,9 +20,10 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     protected void generate() {
         this.add(ModBlocks.MORPHITE_ORE.get(), block -> createOreDrop(ModBlocks.MORPHITE_ORE.get(), ModItems.RAW_MORPHITE.get()));
         this.add(ModBlocks.DEEPSLATE_MORPHITE_ORE.get(), block -> createOreDrop(ModBlocks.DEEPSLATE_MORPHITE_ORE.get(), ModItems.RAW_MORPHITE.get()));
-
+        this.add(ModBlocks.TECTONIC_ORE.get(), block -> createOreDrop(ModBlocks.TECTONIC_ORE.get(), ModItems.TECTONIC_SHARD.get()));
+        this.add(ModBlocks.DEEPSLATE_TECTONIC_ORE.get(), block -> createOreDrop(ModBlocks.DEEPSLATE_TECTONIC_ORE.get(), ModItems.TECTONIC_SHARD.get()));
         dropSelf(ModBlocks.MORPHITE_SYNTHESIZER.get());
-
+        dropSelf(ModBlocks.FISH_TRAP.get());
     }
 
     @Override

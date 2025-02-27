@@ -1,4 +1,5 @@
 package net.joe.mayview.item.custom;
+
 import com.google.common.collect.ImmutableMap;
 import net.joe.mayview.item.ModArmorMaterials;
 import net.minecraft.core.Holder;
@@ -10,6 +11,8 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.Map;
 
@@ -29,26 +32,29 @@ public class ModArmorItem extends ArmorItem {
                             List.of(new MobEffectInstance(MobEffects.LUCK, 40, 1, false, false)))
                     .put(ModArmorMaterials.PETRAFITE,
                             List.of(new MobEffectInstance(MobEffects.HEALTH_BOOST, 40, 4, false, false)))
+                    .put(ModArmorMaterials.SWIFTITE,
+                            List.of(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 40, 4, false, false)))
                     .build();
+
     public ModArmorItem(Holder<ArmorMaterial> material, Type type, Properties properties) {
         super(material, type, properties);
     }
 
     @Override
-    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if(pEntity instanceof Player player) {
-            if(!pLevel.isClientSide() && hasFullSuitOfArmorOn(player)) {
+    public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
+        if (entity instanceof Player player) {
+            if (!level.isClientSide() && hasFullSuitOfArmorOn(player)) {
                 evaluateArmorEffects(player);
             }
         }
-        super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
+        super.inventoryTick(stack, level, entity, slotId, isSelected);
     }
 
     private void evaluateArmorEffects(Player player) {
-        for(Map.Entry<Holder<ArmorMaterial>, List<MobEffectInstance>> entry : MATERIAL_TO_EFFECT_MAP.entrySet()) {
+        for (Map.Entry<Holder<ArmorMaterial>, List<MobEffectInstance>> entry : MATERIAL_TO_EFFECT_MAP.entrySet()) {
             Holder<ArmorMaterial> mapArmorMaterial = entry.getKey();
             List<MobEffectInstance> mapEffect = entry.getValue();
-            if(hasPlayerCorrectArmorOn(mapArmorMaterial, player)) {
+            if (hasPlayerCorrectArmorOn(mapArmorMaterial, player)) {
                 addEffectToPlayer(player, mapEffect);
             }
         }
@@ -56,7 +62,7 @@ public class ModArmorItem extends ArmorItem {
 
     private void addEffectToPlayer(Player player, List<MobEffectInstance> mapEffect) {
         boolean hasPlayerEffect = mapEffect.stream().anyMatch(effect -> player.hasEffect(effect.getEffect()));
-        if(!hasPlayerEffect) {
+        if (!hasPlayerEffect) {
             for (MobEffectInstance effect : mapEffect) {
                 player.addEffect(new MobEffectInstance(effect.getEffect(),
                         effect.getDuration(), effect.getAmplifier(), effect.isAmbient(), effect.isVisible()));
@@ -65,15 +71,17 @@ public class ModArmorItem extends ArmorItem {
     }
 
     private boolean hasPlayerCorrectArmorOn(Holder<ArmorMaterial> mapArmorMaterial, Player player) {
-        for(ItemStack armorStack : player.getArmorSlots()) {
-            if(!(armorStack.getItem() instanceof ArmorItem)) {
+        for (ItemStack armorStack : player.getArmorSlots()) {
+            if (!(armorStack.getItem() instanceof ArmorItem)) {
                 return false;
             }
         }
+
         ArmorItem boots = ((ArmorItem) player.getInventory().getArmor(0).getItem());
         ArmorItem leggings = ((ArmorItem) player.getInventory().getArmor(1).getItem());
         ArmorItem chestplate = ((ArmorItem) player.getInventory().getArmor(2).getItem());
         ArmorItem helmet = ((ArmorItem) player.getInventory().getArmor(3).getItem());
+
         return boots.getMaterial() == mapArmorMaterial && leggings.getMaterial() == mapArmorMaterial
                 && chestplate.getMaterial() == mapArmorMaterial && helmet.getMaterial() == mapArmorMaterial;
     }

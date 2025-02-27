@@ -1,9 +1,9 @@
 package net.joe.mayview.screen.custom;
 
-import net.joe.mayview.Mayview;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.joe.mayview.Mayview;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -12,9 +12,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class MorphiteSynthesizerScreen extends AbstractContainerScreen<MorphiteSynthesizerMenu> {
     private static final ResourceLocation GUI_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Mayview.MOD_ID,"textures/gui/morphite_synthesizer/morphite_synthesizer_gui.png");
+            ResourceLocation.fromNamespaceAndPath(Mayview.MOD_ID, "textures/gui/morphite_synthesizer/morphite_synthesizer_gui.png");
     private static final ResourceLocation ARROW_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Mayview.MOD_ID,"textures/gui/morphite_synthesizer/arrow_progress.png");
+            ResourceLocation.fromNamespaceAndPath(Mayview.MOD_ID, "textures/gui/morphite_synthesizer/arrow_progress.png");
 
 
     public MorphiteSynthesizerScreen(MorphiteSynthesizerMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
@@ -30,7 +30,7 @@ public class MorphiteSynthesizerScreen extends AbstractContainerScreen<MorphiteS
     }
 
     @Override
-    protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(GuiGraphics pGuiGraphics, float partialTick, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, GUI_TEXTURE);
@@ -43,7 +43,7 @@ public class MorphiteSynthesizerScreen extends AbstractContainerScreen<MorphiteS
     }
 
     private void renderProgressArrow(GuiGraphics guiGraphics, int x, int y) {
-        if(menu.isCrafting()) {
+        if (menu.isCrafting()) {
             guiGraphics.blit(ARROW_TEXTURE, x + 37, y + 29 + (30 - menu.getScaledArrowProgress()), 0, 30 - menu.getScaledArrowProgress(), 102, menu.getScaledArrowProgress(), 102, 30);
 
         }

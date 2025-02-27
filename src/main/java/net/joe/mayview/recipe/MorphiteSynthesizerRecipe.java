@@ -14,7 +14,8 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-public record MorphiteSynthesizerRecipe(Ingredient catalystItem, Ingredient morphiteItem, Ingredient upgradeItem, ItemStack output) implements Recipe<MorphiteSynthesizerRecipeInput> {
+public record MorphiteSynthesizerRecipe(Ingredient catalystItem, Ingredient morphiteItem, Ingredient upgradeItem,
+                                        ItemStack output) implements Recipe<MorphiteSynthesizerRecipeInput> {
 
     @Override
     public @NotNull NonNullList<Ingredient> getIngredients() {
@@ -29,7 +30,7 @@ public record MorphiteSynthesizerRecipe(Ingredient catalystItem, Ingredient morp
 
     @Override
     public boolean matches(@NotNull MorphiteSynthesizerRecipeInput pInput, Level pLevel) {
-        if(pLevel.isClientSide()) {
+        if (pLevel.isClientSide()) {
             return false;
         }
 

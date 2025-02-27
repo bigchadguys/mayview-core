@@ -1,37 +1,37 @@
 package net.joe.mayview;
 
-import net.joe.mayview.block.entity.ModBlockEntities;
-import net.joe.mayview.item.ModArmorMaterials;
 import net.joe.mayview.block.ModBlocks;
+import net.joe.mayview.block.entity.ModBlockEntities;
+import net.joe.mayview.data.ModDataComponents;
+import net.joe.mayview.entity.ModEntities;
+import net.joe.mayview.entity.client.MouseRatRenderer;
+import net.joe.mayview.item.ModArmorMaterials;
 import net.joe.mayview.item.ModCreativeModeTabs;
 import net.joe.mayview.item.ModItems;
+import net.joe.mayview.loot.AddCoinModifier;
+import net.joe.mayview.loot.AddItemModifier;
 import net.joe.mayview.recipe.ModRecipes;
 import net.joe.mayview.screen.ModMenuTypes;
+import net.joe.mayview.screen.custom.FishTrapScreen;
 import net.joe.mayview.screen.custom.MorphiteSynthesizerScreen;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.Zombie;
-import net.minecraft.world.item.ItemStack;
+import net.joe.mayview.screen.custom.PiggyBankScreen;
+import net.joe.mayview.sound.ModSounds;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
 
 @Mod(Mayview.MOD_ID)
 public class Mayview {
     public static final String MOD_ID = "mayview";
 
-    public Mayview(IEventBus modEventBus, ModContainer modContainer) {
-        modEventBus.addListener(this::commonSetup);
+    public Mayview(IEventBus modEventBus) {
         ModCreativeModeTabs.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
@@ -39,39 +39,16 @@ public class Mayview {
         ModBlockEntities.register(modEventBus);
         ModMenuTypes.register(modEventBus);
         ModRecipes.register(modEventBus);
+        ModEntities.register(modEventBus);
+        ModSounds.register(modEventBus);
+        AddItemModifier.GLOBAL_LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
+        AddCoinModifier.GLOBAL_LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
+        ModDataComponents.register(modEventBus);
         NeoForge.EVENT_BUS.register(this);
-        modEventBus.addListener(this::addCreative);
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-    }
-
-    private void commonSetup(final FMLCommonSetupEvent event) {
-    }
-
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
     }
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-    }
-
-    @EventBusSubscriber(modid = MOD_ID)
-    public static class ZombieDropHandler {
-        @SubscribeEvent
-        public static void onLivingDrop(LivingDropsEvent event) {
-            LivingEntity entity = event.getEntity();
-
-            if (entity instanceof Zombie) {
-                ItemEntity drop = new ItemEntity(
-                        entity.level(),
-                        entity.getX(),
-                        entity.getY(),
-                        entity.getZ(),
-                        new ItemStack(ModItems.ECTOPLASM.get())
-                );
-
-                event.getDrops().add(drop);
-            }
-        }
     }
 
     @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -79,6 +56,14 @@ public class Mayview {
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.MORPHITE_SYNTHESIZER_MENU.get(), MorphiteSynthesizerScreen::new);
+            event.register(ModMenuTypes.FISH_TRAP_MENU.get(), FishTrapScreen::new);
+            event.register(ModMenuTypes.PIGGY_BANK_MENU.get(), PiggyBankScreen::new);
+
+        }
+
+        @SubscribeEvent
+        public static void onClientSetup(FMLClientSetupEvent event) {
+            EntityRenderers.register(ModEntities.MOUSERAT.get(), MouseRatRenderer::new);
         }
     }
 }

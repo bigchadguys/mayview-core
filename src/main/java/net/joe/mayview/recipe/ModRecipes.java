@@ -19,12 +19,12 @@ public class ModRecipes {
             SERIALIZERS.register("morphite_synthesizing", MorphiteSynthesizerRecipe.Serializer::new);
 
     public static final DeferredHolder<RecipeType<?>, RecipeType<MorphiteSynthesizerRecipe>> MORPHITE_SYNTHESIZER_TYPE =
-            TYPES.register("morphite_synthesizing", () -> new RecipeType<MorphiteSynthesizerRecipe>() {
-        @Override
-        public String toString() {
-            return "morphite_synthesizing";
-        }
-    });
+            TYPES.register("morphite_synthesizing", () -> new RecipeType<>() {
+                @Override
+                public String toString() {
+                    return "morphite_synthesizing";
+                }
+            });
 
     public static void register(IEventBus eventBus) {
         SERIALIZERS.register(eventBus);

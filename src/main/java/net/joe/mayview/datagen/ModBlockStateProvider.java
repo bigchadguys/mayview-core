@@ -18,7 +18,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         blockWithItem(ModBlocks.MORPHITE_ORE);
         blockWithItem(ModBlocks.DEEPSLATE_MORPHITE_ORE);
-        blockWithItem(ModBlocks.MORPHITE_SYNTHESIZER);
+        blockWithItem(ModBlocks.TECTONIC_ORE);
+        blockWithItem(ModBlocks.DEEPSLATE_TECTONIC_ORE);
     }
 
     private void blockWithItem(DeferredBlock<Block> deferredBlock) {
