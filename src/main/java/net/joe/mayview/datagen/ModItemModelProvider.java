@@ -62,7 +62,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.COPPER_CHESTPLATE.get());
         basicItem(ModItems.COPPER_LEGGINGS.get());
         basicItem(ModItems.COPPER_BOOTS.get());
-        withExistingParent(ModItems.MOUSERAT_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.RAT_TRADER_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+        withExistingParent(ModItems.RAT_TRAINER_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
         handheldItem(ModItems.EMERALD_SWORD.get());
         handheldItem(ModItems.EMERALD_PICKAXE.get());
         handheldItem(ModItems.EMERALD_AXE.get());

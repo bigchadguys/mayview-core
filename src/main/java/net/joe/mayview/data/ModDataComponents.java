@@ -1,5 +1,6 @@
 package net.joe.mayview.data;
 
+import net.joe.mayview.Mayview;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.registries.Registries;
@@ -10,7 +11,7 @@ import java.util.function.Supplier;
 
 public class ModDataComponents {
     public static final DeferredRegister<DataComponentType<?>> DATA_COMPONENT_TYPES =
-            DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, "mayview");
+            DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, Mayview.MOD_ID);
 
     public static final Supplier<DataComponentType<CompoundTag>> COIN_CONTAINER =
             DATA_COMPONENT_TYPES.register("coin_container", () ->

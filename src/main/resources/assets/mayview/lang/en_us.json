@@ -121,9 +121,19 @@
 
   "item.mayview.raw_enderite": "Raw Enderite",
   "item.mayview.enderite_ingot": "Enderite Ingot",
+  "entity.mayview.mouserat": "Mouse Rat Trader",
 
   "item.mayview.worm": "Worm",
   "item.mayview.gummy_worm": "Gummy Worm",
   "block.mayview.fish_trap": "Fish Trap",
-  "container.piggy_bank": "Piggy Bank"
+  "container.piggy_bank": "Piggy Bank",
+
+  "item.mayview.beginner_fishing_rod": "Beginner Fishing Rod",
+  "item.mayview.intermediate_fishing_rod": "Intermediate Fishing Rod",
+  "item.mayview.advanced_fishing_rod": "Advanced Fishing Rod",
+  "item.mayview.professional_fishing_rod": "Professional Fishing Rod",
+  "item.mayview.expert_fishing_rod": "Expert Fishing Rod",
+  "item.mayview.hydrite_fishing_rod": "Hydrite Fishing Rod",
+  "item.mayview.reinforced_hydrite_fishing_rod": "Reinforced Hydrite Fishing Rod"
+
 }

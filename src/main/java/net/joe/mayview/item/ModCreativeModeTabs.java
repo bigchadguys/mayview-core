@@ -55,6 +55,15 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.WORM);
                         output.accept(ModItems.GUMMY_WORM);
                         output.accept(ModBlocks.FISH_TRAP);
+                        output.accept(ModItems.BEGINNER_FISHING_ROD);
+                        output.accept(ModItems.INTERMEDIATE_FISHING_ROD);
+                        output.accept(ModItems.ADVANCED_FISHING_ROD);
+                        output.accept(ModItems.EXPERT_FISHING_ROD);
+                        output.accept(ModItems.PROFESSIONAL_FISHING_ROD);
+                        output.accept(ModItems.HYDRITE_FISHING_ROD);
+                        output.accept(ModItems.REINFORCED_HYDRITE_FISHING_ROD);
+
+                        output.accept(ModItems.CUSTOM_BOW);
 
                         output.accept(ModItems.COPPER_SWORD);
                         output.accept(ModItems.COPPER_PICKAXE);
@@ -81,7 +90,8 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.TECTRITE_PICKAXE);
                         output.accept(ModItems.PETRAFITE_AXE);
                         output.accept(ModItems.ECOLITE_HOE);
-                        output.accept(ModItems.MOUSERAT_SPAWN_EGG);
+                        output.accept(ModItems.RAT_TRADER_SPAWN_EGG);
+                        output.accept(ModItems.RAT_TRAINER_SPAWN_EGG);
                         output.accept(ModItems.HONEY_DIAMOND_HELMET);
                         output.accept(ModItems.HONEY_DIAMOND_CHESTPLATE);
                         output.accept(ModItems.HONEY_DIAMOND_LEGGINGS);

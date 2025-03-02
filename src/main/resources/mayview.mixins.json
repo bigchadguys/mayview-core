@@ -6,7 +6,8 @@
   "mixins": [
     "CobblemonBattleDropMixin",
     "ConvertVillagerTradesMixin",
-    "ConvertWanderingTraderTradesMixin"
+    "ConvertWanderingTraderTradesMixin",
+    "FishingHookMixin"
   ],
   "client": [],
   "server": [],

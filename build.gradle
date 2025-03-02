@@ -16,6 +16,18 @@ group = mod_group_id
 
 repositories {
     maven {
+        name = "Fabric"
+        url = "https://maven.fabricmc.net/"
+    }
+    maven {
+        name = "Architectury"
+        url = "https://maven.architectury.dev/"
+    }
+    maven {
+        name = 'CurseForge'
+        url = 'https://www.cursemaven.com'
+    }
+    maven {
         name = 'Kotlin for Forge'
         url = 'https://thedarkcolour.github.io/KotlinForForge/'
     }
@@ -62,10 +74,16 @@ configurations {
     runtimeClasspath.extendsFrom localRuntime
 }
 
+configurations.configureEach {
+    exclude group: 'net.fabricmc', module: 'fabric-loader'
+}
+
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
     implementation "thedarkcolour:kotlinforforge-neoforge:5.6.0"
     implementation "com.cobblemon:neoforge:1.6.1+1.21.1"
+    implementation "curse.maven:radical-cobblemon-trainers-api-1152792:6125980"
+    implementation "dev.architectury:architectury-neoforge:13.0.2"
 }
 
 tasks.withType(ProcessResources).configureEach {

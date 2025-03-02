@@ -1,8 +1,10 @@
 package net.joe.mayview.entity.custom;
 
+import com.google.common.collect.Lists;
 import net.joe.mayview.item.ModItems;
 import net.joe.mayview.projectile.RatSpit;
 import net.joe.mayview.sound.ModSounds;
+import net.joe.mayview.trades.RatTrades;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -22,21 +24,19 @@ import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.npc.AbstractVillager;
-import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.flag.FeatureFlags;
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Objects;
 
-public class MouseRatEntity extends AbstractVillager implements RangedAttackMob {
+public class RatTraderEntity extends AbstractVillager implements RangedAttackMob {
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
     public final AnimationState swimAnimationState = new AnimationState();
@@ -48,7 +48,7 @@ public class MouseRatEntity extends AbstractVillager implements RangedAttackMob 
     private BlockPos wanderTarget;
     private int despawnDelay;
 
-    public MouseRatEntity(EntityType<? extends MouseRatEntity> entityType, Level level) {
+    public RatTraderEntity(EntityType<? extends RatTraderEntity> entityType, Level level) {
         super(entityType, level);
     }
 
@@ -128,7 +128,7 @@ public class MouseRatEntity extends AbstractVillager implements RangedAttackMob 
     @Override
     public @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        if (!itemStack.is(ModItems.MOUSERAT_SPAWN_EGG) && this.isAlive() && !this.isTrading() && !this.isBaby()) {
+        if (!itemStack.is(ModItems.RAT_TRADER_SPAWN_EGG) && this.isAlive() && !this.isTrading() && !this.isBaby()) {
             if (hand == InteractionHand.MAIN_HAND) {
                 player.awardStat(Stats.TALKED_TO_VILLAGER);
             }
@@ -146,29 +146,29 @@ public class MouseRatEntity extends AbstractVillager implements RangedAttackMob 
 
     @Override
     protected void updateTrades() {
-        if (this.level().enabledFeatures().contains(FeatureFlags.TRADE_REBALANCE)) {
-            experimentalUpdateTrades();
-        } else {
-            VillagerTrades.ItemListing[] tradesTier1 = VillagerTrades.WANDERING_TRADER_TRADES.get(1);
-            VillagerTrades.ItemListing[] tradesTier2 = VillagerTrades.WANDERING_TRADER_TRADES.get(2);
-            if (tradesTier1 != null && tradesTier2 != null) {
-                MerchantOffers offers = this.getOffers();
-                this.addOffersFromItemListings(offers, tradesTier1, 5);
-                int randomIndex = this.random.nextInt(tradesTier2.length);
-                VillagerTrades.ItemListing tradeListing = tradesTier2[randomIndex];
-                MerchantOffer offer = tradeListing.getOffer(this, this.random);
-                if (offer != null) {
-                    offers.add(offer);
-                }
+        RatTrades.ItemListing[] tradesTier1 = RatTrades.RAT_TRADES.get(1);
+        if (tradesTier1 != null) {
+            MerchantOffers offers = this.getOffers();
+            addOffersFromItemListings(offers, tradesTier1, 5);
+            int randomIndex = this.random.nextInt(tradesTier1.length);
+            RatTrades.ItemListing tradeListing = tradesTier1[randomIndex];
+            MerchantOffer offer = tradeListing.getOffer(this, this.random);
+            if (offer != null) {
+                offers.add(offer);
             }
         }
     }
 
-    private void experimentalUpdateTrades() {
-        MerchantOffers offers = this.getOffers();
-        for (Pair<VillagerTrades.ItemListing[], Integer> pair : VillagerTrades.EXPERIMENTAL_WANDERING_TRADER_TRADES) {
-            VillagerTrades.ItemListing[] tradeListings = pair.getLeft();
-            this.addOffersFromItemListings(offers, tradeListings, pair.getRight());
+    protected void addOffersFromItemListings(MerchantOffers givenMerchantOffers, RatTrades.ItemListing[] newTrades, int maxNumbers) {
+        ArrayList<RatTrades.ItemListing> arraylist = Lists.newArrayList(newTrades);
+        int i = 0;
+
+        while (i < maxNumbers && !arraylist.isEmpty()) {
+            MerchantOffer merchantoffer = arraylist.remove(this.random.nextInt(arraylist.size())).getOffer(this, this.random);
+            if (merchantoffer != null) {
+                givenMerchantOffers.add(merchantoffer);
+                i++;
+            }
         }
     }
 

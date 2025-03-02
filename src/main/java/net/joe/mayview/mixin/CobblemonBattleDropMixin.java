@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.api.drop.DropEntry;
 import com.cobblemon.mod.common.api.drop.ItemDropEntry;
 import com.cobblemon.mod.common.api.drop.DropTable;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import net.joe.mayview.Mayview;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -37,7 +38,7 @@ public class CobblemonBattleDropMixin {
     @Unique
     private static ItemDropEntry mayview_core$createDrop(String itemId, int quantity) {
         ItemDropEntry drop = new ItemDropEntry();
-        drop.setItem(ResourceLocation.fromNamespaceAndPath("mayview", itemId));
+        drop.setItem(ResourceLocation.fromNamespaceAndPath(Mayview.MOD_ID, itemId));
         drop.setPercentage(100f);
         drop.setQuantity(quantity);
         return drop;

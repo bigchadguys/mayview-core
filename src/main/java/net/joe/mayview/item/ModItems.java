@@ -3,6 +3,7 @@ package net.joe.mayview.item;
 import net.joe.mayview.Mayview;
 import net.joe.mayview.entity.ModEntities;
 import net.joe.mayview.item.custom.*;
+import net.joe.mayview.item.custom.FishingPackage.CustomFishingRodItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.*;
@@ -43,9 +44,47 @@ public class ModItems {
 
     public static final DeferredItem<Item> STEEL_INGOT = ITEMS.registerSimpleItem("steel_ingot");
 
-    public static final DeferredItem<Item> COPPER_COIN = ITEMS.registerItem("copper_coin", CopperCoinItem::new, new Item.Properties().stacksTo(99));
-    public static final DeferredItem<Item> IRON_COIN = ITEMS.registerItem("iron_coin", IronCoinItem::new, new Item.Properties().stacksTo(99));
-    public static final DeferredItem<Item> GOLD_COIN = ITEMS.registerItem("gold_coin", GoldCoinItem::new, new Item.Properties().stacksTo(99));
+    public static final DeferredItem<Item> BEGINNER_FISHING_ROD = ITEMS.registerItem(
+            "beginner_fishing_rod",
+            properties -> new CustomFishingRodItem(2, new Item.Properties())
+    );
+
+    public static final DeferredItem<Item> INTERMEDIATE_FISHING_ROD = ITEMS.registerItem(
+            "intermediate_fishing_rod",
+            properties -> new CustomFishingRodItem(3, new Item.Properties())
+    );
+
+    public static final DeferredItem<Item> ADVANCED_FISHING_ROD = ITEMS.registerItem(
+            "advanced_fishing_rod",
+            properties -> new CustomFishingRodItem(4, new Item.Properties())
+    );
+
+    public static final DeferredItem<Item> EXPERT_FISHING_ROD = ITEMS.registerItem(
+            "expert_fishing_rod",
+            properties -> new CustomFishingRodItem(6, new Item.Properties())
+    );
+
+    public static final DeferredItem<Item> PROFESSIONAL_FISHING_ROD = ITEMS.registerItem(
+            "professional_fishing_rod",
+            properties -> new CustomFishingRodItem(9, new Item.Properties())
+    );
+
+    public static final DeferredItem<Item> HYDRITE_FISHING_ROD = ITEMS.registerItem(
+            "hydrite_fishing_rod",
+            properties -> new CustomFishingRodItem(12, new Item.Properties())
+    );
+
+    public static final DeferredItem<Item> REINFORCED_HYDRITE_FISHING_ROD = ITEMS.registerItem(
+            "reinforced_hydrite_fishing_rod",
+            properties -> new CustomFishingRodItem(16, new Item.Properties())
+    );
+
+
+    public static final DeferredItem<Item> CUSTOM_BOW = ITEMS.registerItem("custom_bow", properties -> new CustomBowItem(new Item.Properties(), 20));
+
+    public static final DeferredItem<Item> COPPER_COIN = ITEMS.registerItem("copper_coin", Item::new, new Item.Properties().stacksTo(99));
+    public static final DeferredItem<Item> IRON_COIN = ITEMS.registerItem("iron_coin", Item::new, new Item.Properties().stacksTo(99));
+    public static final DeferredItem<Item> GOLD_COIN = ITEMS.registerItem("gold_coin", Item::new, new Item.Properties().stacksTo(99));
     public static final DeferredItem<Item> DIAMOND_COIN = ITEMS.registerItem("diamond_coin", Item::new, new Item.Properties().stacksTo(99));
     public static final DeferredItem<Item> WORM = ITEMS.registerSimpleItem("worm");
     public static final DeferredItem<Item> GUMMY_WORM = ITEMS.registerSimpleItem("gummy_worm");
@@ -71,8 +110,11 @@ public class ModItems {
             }
     );
 
-    public static final DeferredItem<Item> MOUSERAT_SPAWN_EGG = ITEMS.register("mouserat_spawn_egg",
-            () -> new DeferredSpawnEggItem(ModEntities.MOUSERAT, 0xdebd47, 0xdebd47, new Item.Properties()));
+    public static final DeferredItem<Item> RAT_TRADER_SPAWN_EGG = ITEMS.register("rat_trader_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.RAT_TRADER, 0xdebd47, 0xdebd47, new Item.Properties()));
+
+    public static final DeferredItem<Item> RAT_TRAINER_SPAWN_EGG = ITEMS.register("rat_trainer_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.RAT_TRAINER, 0xdebd47, 0xdebd47, new Item.Properties()));
 
     public static final DeferredItem<Item> HONEY_DIAMOND_PICKAXE = ITEMS.register("honey_diamond_pickaxe",
             () -> new PickaxeItem(ModToolTiers.HONEY_DIAMOND, new Item.Properties().attributes(PickaxeItem.createAttributes(ModToolTiers.HONEY_DIAMOND, 1.0f, -2.8f))));
@@ -173,10 +215,9 @@ public class ModItems {
     public static final DeferredItem<Item> EMERALD_BOOTS = ITEMS.register("emerald_boots",
             () -> new ArmorItem(ModArmorMaterials.EMERALD, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(37))));
     public static final DeferredItem<Item> SPECTRITE_SWORD = ITEMS.register("spectrite_sword",
-            () -> new ModEffectSwordItem(ModToolTiers.SPECTRITE,
+            () -> new SpectriteScytheItem(ModToolTiers.SPECTRITE,
                     new Item.Properties()
-                            .attributes(SwordItem.createAttributes(ModToolTiers.SPECTRITE, 3.0f, -2.4f)),
-                    MobEffects.MOVEMENT_SLOWDOWN));
+                            .attributes(SwordItem.createAttributes(ModToolTiers.SPECTRITE, 3.0f, -2.4f))));
 
     public static final DeferredItem<Item> SPECTRITE_HELMET = ITEMS.register("spectrite_helmet",
             () -> new ModArmorItem(ModArmorMaterials.SPECTRITE, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(37))));
@@ -188,7 +229,7 @@ public class ModItems {
             () -> new ArmorItem(ModArmorMaterials.SPECTRITE, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(37))));
 
     public static final DeferredItem<Item> ECOLITE_HOE = ITEMS.register("ecolite_hoe",
-            () -> new HoeItem(ModToolTiers.ECOLITE, new Item.Properties().attributes(HoeItem.createAttributes(ModToolTiers.ECOLITE, -3.0f, 0.0f))));
+            () -> new EcoliteHoeItem(ModToolTiers.ECOLITE, new Item.Properties().attributes(HoeItem.createAttributes(ModToolTiers.ECOLITE, -3.0f, 0.0f))));
 
     public static final DeferredItem<Item> ECOLITE_HELMET = ITEMS.register("ecolite_helmet",
             () -> new ModArmorItem(ModArmorMaterials.ECOLITE, ArmorItem.Type.HELMET, new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(37))));
@@ -243,6 +284,18 @@ public class ModItems {
             () -> new ArmorItem(ModArmorMaterials.SWIFTITE, ArmorItem.Type.LEGGINGS, new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(37))));
     public static final DeferredItem<Item> SWIFTITE_BOOTS = ITEMS.register("swiftite_boots",
             () -> new ArmorItem(ModArmorMaterials.SWIFTITE, ArmorItem.Type.BOOTS, new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(37))));
+
+    public static List<Item> getCustomFishingRods() {
+        return List.of(
+                ModItems.BEGINNER_FISHING_ROD.get(),
+                ModItems.ADVANCED_FISHING_ROD.get(),
+                ModItems.EXPERT_FISHING_ROD.get(),
+                ModItems.INTERMEDIATE_FISHING_ROD.get(),
+                ModItems.PROFESSIONAL_FISHING_ROD.get(),
+                ModItems.HYDRITE_FISHING_ROD.get(),
+                ModItems.REINFORCED_HYDRITE_FISHING_ROD.get()
+        );
+    }
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
